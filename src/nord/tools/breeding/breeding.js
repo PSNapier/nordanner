@@ -41,6 +41,7 @@ nord.breeding = {
     "snow",
     "frost",
     "fall",
+    "manchado",
   ],
 
   // details of different mutations
