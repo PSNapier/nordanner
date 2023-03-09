@@ -369,7 +369,7 @@ nord.cartography = {
 
     if (reg.hlevel < reg.rlevel) {
       console.log("region failure");
-      rzl.addDiv(output, { content: "Region : Failure" });
+      rzl.addDiv(output, { content: "Sadly, [name] found nothing while exploring" });
       return false;
     }
 
@@ -484,7 +484,9 @@ nord.cartography = {
           break;
       }
     }
-    rzl.addDiv(output, { content: "Found : " + text });
+    rzl.addDiv(output, { 
+      content: `[name] found while exploring: ${text}` 
+    });
     console.log(item);
   },
 
@@ -553,6 +555,12 @@ nord.cartography = {
     nord.cartography.roll();
   },
 
+  // name change
+  // nameUpdated: function (ev) {
+  //   const fields = nord.state.breeding.fields,
+  //     horse = ev.target.id.slice(0, -4);
+  // },
+
   // selected region in drop down
   regionChange: function (ev) {
     nord.cartography.applyRegion();
@@ -587,6 +595,20 @@ nord.cartography = {
               class: "rzl-form-row",
               children: [
                 {
+                  // class: "rzl-form-item",
+                  // children: [
+                  //   {
+                  //     tag: "label",
+                  //     content: "Name:",
+                  //     props: { for: "name" },
+                  //   },
+                  //   {
+                  //     tag: "input",
+                  //     id: "name",
+                  //     props: { type: "text", placeholder: "Name" },
+                  //     events: { keyup: "nord.cartography.nameChange" },
+                  //   },
+                  // ],
                   class: "rzl-form-item",
                   children: [
                     {
