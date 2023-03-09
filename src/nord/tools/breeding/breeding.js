@@ -17,6 +17,7 @@ nord.breeding = {
       ["dun", /\b(D|n)(D)\b/, ["n", "D"]],
       ["pearl", /\b(prl|n)(prl)\b/, ["n", "prl"]],
       ["flaxen", /\b(f|n)(f)\b/, ["n", "f"]],
+      ["merlot", /\b(Me|n)(Me)\b/, ["n", "Me"]],
       ["mushroom", /\b(mu|n)(mu)\b/, ["n", "mu"]],
       ["noir", /\b(Nir|n)(Nir)\b/, ["n", "Nir"]],
       ["lilac", /\b(li|n)(li)\b/, ["n", "li"]],
@@ -141,6 +142,7 @@ nord.breeding = {
       ["Sooty", /\b(?:n|Sty)Sty\b/],
       ["Splash", /\b(?:n|Spl)Spl\b/],
       ["Tobiano", /\b(?:n|Tb)Tb\b/],
+      ["Merlot", /\b(?:n|Me)Me\b/],
       ["Mushroom", /\b(?:n|mu)mu\b/],
       ["Noir", /\b(?:n|Nir)Nir\b/],
       ["Lilac", /\b(?:n|li)li\b/],
@@ -371,6 +373,25 @@ nord.breeding = {
             carrier.push(name);
           }
 
+          // Merlot
+          if (/\b(?:n|Me)Me\b/.test(horse.geno)) {
+            let name = "Merlot";
+
+            phenoStrings.splice(phenoStrings.indexOf(name), 1);
+            const baseList = ['Black', 'Bay', 'Seal Bay', 'Wild Bay', 'Chestnut'];
+            for (let i = 0; i < baseList.length; i++) {
+              if (phenoStrings.includes(baseList[i])) {
+                phenoStrings.splice(phenoStrings.indexOf(baseList[i]), 1);
+                if (phenoStrings.includes('Cream')) {
+                  phenoStrings.splice(phenoStrings.indexOf('Cream'));
+                  name = `Cream Merlot`;
+                }
+                phenoStrings.unshift(name);
+                break;
+              }
+            }
+          }
+
           // Mushroom
           if (/\b(?:n|mu)mu\b/.test(horse.geno)) {
             name = "Mushroom";
@@ -505,21 +526,18 @@ nord.breeding = {
           // Lilac
           if (/\b(?:n|li)li\b/.test(horse.geno)) {
             name = "Lilac";
-            console.log(phenoStrings);
 
             phenoStrings.splice(phenoStrings.indexOf(name), 1);
-            if (phenoStrings.includes("Chestnut")) {
-              carrier.push(name)
-            }
-            else {
-              const baseList = ['Black', 'Bay', 'Seal Bay', 'Wild Bay'];
-              for (let i = 0; i < baseList.length; i++) {
-                if (phenoStrings.includes(baseList[i])) {
-                  phenoStrings.splice(phenoStrings.indexOf(baseList[i]));
-                  phenoStrings.unshift(name);
-                  break;
-                }
+            const baseList = ['Black', 'Bay', 'Seal Bay', 'Wild Bay'];
+            for (let i = 0; i < baseList.length; i++) {
+              if (phenoStrings.includes(baseList[i])) {
+                phenoStrings.splice(phenoStrings.indexOf(baseList[i]), 1);
+                phenoStrings.unshift(name);
+                break;
               }
+            }
+            if (!phenoStrings.includes('Lilac') || phenoStrings.includes("Chestnut")) {
+              carrier.push(name)
             }
 
             // if (!phenoStrings.includes("Black") || /\bnli\b/.test(horse.geno)) {
