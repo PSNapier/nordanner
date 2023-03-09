@@ -409,7 +409,8 @@ nord.cartography = {
       // rzl.addDiv(fields.output,{content:"__ is victorious!"});
     } else {
       console.log("region failure");
-      rzl.addDiv(output, { content: "Region : Failure" });
+      rzl.addDiv(output, { content: `Region : Failure` });
+      rzl.addDiv(output, { content: `Sadly, [name] found nothing while exploring!` });
       // rzl.addDiv(fields.output,{content:"__ was unsuccessful!"});
       return false;
     }
@@ -484,6 +485,13 @@ nord.cartography = {
           break;
       }
     }
+    const month = new Date().getMonth();
+    if (month === 2 || month === 3) {
+      if (rzl.rng1to(25)) {
+        text += ', Tattered Cloth';
+      }
+    }
+
     rzl.addDiv(output, { 
       content: `[name] found while exploring: ${text}` 
     });
