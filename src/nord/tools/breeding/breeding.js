@@ -396,9 +396,7 @@ nord.breeding = {
           if (/\b(?:n|mu)mu\b/.test(horse.geno)) {
             name = "Mushroom";
             phenoStrings.splice(phenoStrings.indexOf(name), 1);
-			console.log(phenoStrings);
 			if (phenoStrings.includes('Cream Merlot')) {
-				console.log('yas');
 				carrier.push(name);
 			}
             else if (
