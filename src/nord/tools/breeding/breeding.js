@@ -383,7 +383,7 @@ nord.breeding = {
               if (phenoStrings.includes(baseList[i])) {
                 phenoStrings.splice(phenoStrings.indexOf(baseList[i]), 1);
                 if (phenoStrings.includes('Cream')) {
-                  phenoStrings.splice(phenoStrings.indexOf('Cream'));
+                  phenoStrings.splice(phenoStrings.indexOf('Cream'), 1);
                   name = `Cream Merlot`;
                 }
                 phenoStrings.unshift(name);
@@ -396,7 +396,12 @@ nord.breeding = {
           if (/\b(?:n|mu)mu\b/.test(horse.geno)) {
             name = "Mushroom";
             phenoStrings.splice(phenoStrings.indexOf(name), 1);
-            if (
+			console.log(phenoStrings);
+			if (phenoStrings.includes('Cream Merlot')) {
+				console.log('yas');
+				carrier.push(name);
+			}
+            else if (
               !phenoStrings.includes("Chestnut") ||
               /\bnmu\b/.test(horse.geno)
             ) {
