@@ -504,13 +504,29 @@ nord.breeding = {
           // Lilac
           if (/\b(?:n|li)li\b/.test(horse.geno)) {
             name = "Lilac";
+            console.log(phenoStrings);
+
             phenoStrings.splice(phenoStrings.indexOf(name), 1);
-            if (!phenoStrings.includes("Black") || /\bnli\b/.test(horse.geno)) {
-              carrier.push(name);
-            } else {
-              phenoStrings.splice(phenoStrings.indexOf("Chestnut"));
-              phenoStrings.unshift(name);
+            if (phenoStrings.includes("Chestnut")) {
+              carrier.push(name)
             }
+            else {
+              const baseList = ['Black', 'Bay', 'Seal Bay', 'Wild Bay'];
+              for (let i = 0; i < baseList.length; i++) {
+                if (phenoStrings.includes(baseList[i])) {
+                  phenoStrings.splice(phenoStrings.indexOf(baseList[i]));
+                  phenoStrings.unshift(name);
+                  break;
+                }
+              }
+            }
+
+            // if (!phenoStrings.includes("Black") || /\bnli\b/.test(horse.geno)) {
+            //   carrier.push(name);
+            // } else {
+            //   phenoStrings.splice(phenoStrings.indexOf("Chestnut"));
+            //   phenoStrings.unshift(name);
+            // }
           }
         })();
         // conditional exceptions
