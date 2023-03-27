@@ -557,10 +557,77 @@ nord.cartography = {
     }
   },
 
+  customRollUpdated: function (ev) {
+	getCustomRoll = ev.srcElement.value
+		.split(',')
+		.map(x => x.trim())
+		.filter(Boolean);
+	// console.log(getcustomRoll);
+  },
+
   // click handler for roll button
   rollClick: function (ev) {
     //this is button
     nord.cartography.roll();
+	
+	function customRoll() {
+		let value = getCustomRoll;
+
+		function rng(max) {
+			const rng = Math.floor(Math.random() * max) + 1;
+			return rng;
+		}
+
+		function randomizer(array) {
+			return array.length > 0 ? array[Math.floor(Math.random() * array.length)] : '';
+		}
+
+		// roll a list of genes based on array
+		// let array = [[50,'gene'],[100,'gene']];
+		function rngList(array, roll) {
+			let output;
+		
+			let x = rng(roll);
+			for (let i = 0; i < array.length; i++) {
+				if (x <= array[i][0]) {
+				output = array[i][1];
+				break;
+				}
+			}
+		
+			// console.log(output);
+			return output || '';
+		}
+		
+		let oddsCheck = false;
+		for (let i = 0; i < value.length; i++) {
+			oddsCheck = true;
+			if (!value[i].includes('%')) {
+				oddsCheck = false;
+				break;
+			}
+		}
+		let customRoll = '';
+		if (oddsCheck) {
+			let tempValue = [];
+			for (let i = 0; i < value.length; i++) {
+				let name = value[i].match(/.+(?=\s+\d+%)/)[0].trim();
+				let odds = parseInt(value[i].match(/\d+(?=%)/)[0]);
+				tempValue.push([odds, name]);
+			}
+			customRoll = rngList(tempValue, 100);
+		}
+		else {
+			customRoll = randomizer(value);
+		}
+
+		if (customRoll !== '') {
+			rzl.addDiv(output, {
+			content: `Whats this? You found something else! You find ${customRoll}`,
+			});
+		}
+	}
+	customRoll();
   },
 
   // name change
@@ -760,6 +827,27 @@ nord.cartography = {
             //     },
             //   ],
             // },
+			{
+			  class: "rzl-form-row",
+              children: [
+                {
+                  class: "rzl-form-item",
+                  children: [
+                    {
+                      tag: "label",
+                      content: "Custom Roll:",
+                      props: { for: "customRoll" },
+                    },
+                    {
+                      tag: "input",
+                      id: "customRoll",
+                      props: { type: "text", placeholder: "cr1 50%, cr2 50%..." },
+                      events: { keyup: "nord.arena.customRollUpdated" },
+                    },
+                  ],
+                },
+              ],
+			},
             {
               class: "rzl-form-row",
               children: [
