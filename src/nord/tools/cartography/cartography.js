@@ -841,7 +841,7 @@ nord.cartography = {
                     {
                       tag: "input",
                       id: "customRoll",
-                      props: { type: "text", placeholder: "cr1 50%, cr2 50%..." },
+                      props: { type: "text", placeholder: "cr1 20%, cr2 40%..." },
                       events: { keyup: "nord.arena.customRollUpdated" },
                     },
                   ],
