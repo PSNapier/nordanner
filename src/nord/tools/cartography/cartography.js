@@ -487,7 +487,7 @@ nord.cartography = {
     }
     const month = new Date().getMonth();
     if (month === 2 || month === 3) {
-      if (rzl.rng1to(100) <= 25) {
+      if (rzl.rng1to(100) <= 15) {
         text += ', Tattered Cloth';
       }
     }
