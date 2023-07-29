@@ -54,6 +54,7 @@ nord.breeding = {
     ],
     normal: [
       ["glimmer", /\b(Glm(?:\^r)?|n)(Glm(?:\^r)?)\b/, ["n", "Glm", "Glm\^r"]],
+      ["fawn", /\b(Fwn(?:\^f)?|n)(Fwn(?:\^f)?)\b/, ["n", "Fwn", "Fwn\^f"]],
       ["snowglobe", /\b(Glb|n)(Glb)\b/, ["n", "Glb"]],
       ["mandarin", /\b(Mnd|n)(Mnd)\b/, ["n", "Mnd"]],
       ["agis", /\b(Ags|n)(Ags)\b/, ["n", "Ags"]],
@@ -70,8 +71,7 @@ nord.breeding = {
       ["christmaslights", /\b(Lht|n)(Lht)\b/, ["n", "Lht"]],
       ["cloudedleopard", /\b(Cd|n)(Cd)\b/, ["n", "Cd"]],
       ["ectotherm", /\b(Ect|n)(Ect)\b/, ["n", "Ect"]],
-      ["fawn", /\b(Fwn|n)(Fwn)\b/, ["n", "Fwn"]],
-      ["festivefawn", /\b(Fwn\^f|n)(Fwn\^f)\b/, ["n", "Fwn\^f"]],
+    //   ["fawn", /\b(Fwn|n)(Fwn)\b/, ["n", "Fwn"]],
       ["frostsplash", /\b(Fspl|n)(Fspl)\b/, ["n", "Fspl"]],
       ["giraffe", /\b(Gr|n)(Gr)\b/, ["n", "Gr"]],
       ["griffinstouch", /\b(Gft|n)(Gft)\b/, ["n", "Gft"]],
@@ -210,6 +210,7 @@ nord.breeding = {
       ["Peafowl", /\b(?:n|Pwl)Pwl\b/],
       ["Pumpkin", /\b(?:n|Pkn)Pkn\b/],
       ["Radioactive Glimmer", /\b(?:n|Glm\^r)Glm\^r\b/],
+      ["Festive Fawn", /\b(?:n|Fwn\^f)Fwn\^f\b/],
       ["Snowdripple", /\b(?:n|Sd)Sd\b/],
       ["Snowglobe", /\b(?:n|Glb)Glb\b/],
       ["Stained Glass", /\b(?:n|Sgl)Sgl\b/],
@@ -980,6 +981,9 @@ nord.breeding = {
         else if (/\bXoXo\b/.test(horse.geno)) {
           horse._pheno = "LETHAL XOLO";
         }
+        else if (/\bSctSct\b/.test(horse.geno)) {
+          horse._pheno = "LETHAL SPECTRAL";
+        }
       })();
 
       horse._geneticsChanged = false;
@@ -1083,10 +1087,11 @@ nord.breeding = {
       const join = "<br>" + (twins ? "AND" : "OR") + "<br>",
         strings = [];
       foals.forEach((v, i) => {
+		console.log(v.pheno);
         let appy = v.isAppaloosa() ? " ( " + v.appaloosa.join(" ") + " ) " : "",
           idx = v.geno.lastIndexOf("Lp") + 2 || 0,
           geno = v.geno.slice(0, idx) + appy + v.geno.slice(idx);
-        strings[i] = "Geno: " + geno.trim() + "<br>Pheno: " + v.pheno;
+        strings[i] = "Geno: " + geno.trim() + "<br>Pheno: " + v.pheno.replace('Glimmer Radioactive Glimmer', 'Radioactive Glimmer').replace('Festive Fawn Festive Fawn', 'Festive Fawn').replace('Fawn Festive Fawn', 'Festive Fawn');
       });
 
       rzl.addDiv(output, { content: strings.join(join) });
@@ -1338,10 +1343,8 @@ nord.breeding = {
         if (mut[0] === "glimmer") {
           const rng = rzl.rng1to(10000);
           const x = rzl.rng1to(100);
-		  console.log(sireGene);
           const srad = sireGene.includes("Glm\^r");
           const drad = damGene.includes("Glm\^r");
-		  console.log(srad, drad);
           const rad = ((srad || drad) && x <= 50) || rng <= 80 ? true : false;
           const gfrom = rad ? "Glm" : "Glm^r";
           const gto = rad ? "Glm^r" : "Glm";
@@ -1355,24 +1358,24 @@ nord.breeding = {
           foalGene = foalGene.join("");
           if (foalGene !== "nn") foal.addGene(foalGene);
         } 
-        // else if (mut[0] === "festivefawn") {
-        //   const rng = rzl.rng1to(10000);
-        //   const x = rzl.rng1to(100);
-        //   const srad = sireGene.includes("Fwn^f");
-        //   const drad = damGene.includes("Fwn^f");
-        //   const rad = ((srad || drad) && x <= 50) || rng <= 80 ? true : false;
-        //   const gfrom = rad ? "Fwn" : "Fwn^f";
-        //   const gto = rad ? "Fwn^f" : "Fwn";
-        //   while (sireGene.includes(gfrom)) {
-        //     sireGene[sireGene.indexOf(gfrom)] = gto;
-        //   }
-        //   while (damGene.includes(gfrom)) {
-        //     damGene[damGene.indexOf(gfrom)] = gto;
-        //   }
-        //   let foalGene = self.finalisePart(sireGene, damGene, mut[2]);
-        //   foalGene = foalGene.join("");
-        //   if (foalGene !== "nn") foal.addGene(foalGene);
-        // } 
+        else if (mut[0] === "fawn") {
+          const rng = rzl.rng1to(10000);
+          const x = rzl.rng1to(100);
+          const sfestive = sireGene.includes("Fwn\^f");
+          const dfestive = damGene.includes("Fwn\^f");
+          const festive = ((sfestive || dfestive) && x <= 50) || rng <= 80 ? true : false;
+          const gfrom = festive ? "Fwn" : "Fwn^f";
+          const gto = festive ? "Fwn^f" : "Fwn";
+          while (sireGene.includes(gfrom)) {
+            sireGene[sireGene.indexOf(gfrom)] = gto;
+          }
+          while (damGene.includes(gfrom)) {
+            damGene[damGene.indexOf(gfrom)] = gto;
+          }
+          let foalGene = self.finalisePart(sireGene, damGene, mut[2]);
+          foalGene = foalGene.join("");
+          if (foalGene !== "nn") foal.addGene(foalGene);
+        } 
 		else {
           const siremut = siregeno.match(mut[1]) || [],
             dammut = damgeno.match(mut[1]) || [];
