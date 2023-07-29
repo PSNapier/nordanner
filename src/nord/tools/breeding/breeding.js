@@ -53,12 +53,14 @@ nord.breeding = {
       ["eggnog", /\b(Nog|n)(Nog)\b/, ["n", "Nog"], [10, 11, 0, 1]],
     ],
     normal: [
-      ["glimmer", /\b(Glm(?:^r)?|n)(Glm(?:\^r)?)\b/, ["n", "Glm", "Glm^r"]],
+      ["glimmer", /\b(Glm(?:\^r)?|n)(Glm(?:\^r)?)\b/, ["n", "Glm", "Glm\^r"]],
       ["snowglobe", /\b(Glb|n)(Glb)\b/, ["n", "Glb"]],
       ["mandarin", /\b(Mnd|n)(Mnd)\b/, ["n", "Mnd"]],
       ["agis", /\b(Ags|n)(Ags)\b/, ["n", "Ags"]],
+      ["ailurus", /\b(Ai|n)(Ai)\b/, ["n", "Ai"]],
       ["angler", /\b(Ang|n)(Ang)\b/, ["n", "Ang"]],
       ["atlanticus", /\b(Atl|n)(Atl)\b/, ["n", "Atl"]],
+      ["aquatic", /\b(Aq|n)(Aq)\b/, ["n", "Aq"]],
       ["bloodsplash", /\b(Bsh|n)(Bsh)\b/, ["n", "Bsh"]],
       ["butterfly", /\b(Bp|n)(Bp)\b/, ["n", "Bp"]],
       ["candycane", /\b(Cnd|n)(Cnd)\b/, ["n", "Cnd"]],
@@ -67,11 +69,15 @@ nord.breeding = {
       ["christmasbells", /\b(Bls|n)(Bls)\b/, ["n", "Bls"]],
       ["christmaslights", /\b(Lht|n)(Lht)\b/, ["n", "Lht"]],
       ["cloudedleopard", /\b(Cd|n)(Cd)\b/, ["n", "Cd"]],
+      ["ectotherm", /\b(Ect|n)(Ect)\b/, ["n", "Ect"]],
       ["fawn", /\b(Fwn|n)(Fwn)\b/, ["n", "Fwn"]],
+      ["festivefawn", /\b(Fwn\^f|n)(Fwn\^f)\b/, ["n", "Fwn\^f"]],
       ["frostsplash", /\b(Fspl|n)(Fspl)\b/, ["n", "Fspl"]],
+      ["giraffe", /\b(Gr|n)(Gr)\b/, ["n", "Gr"]],
       ["griffinstouch", /\b(Gft|n)(Gft)\b/, ["n", "Gft"]],
       ["jaguar", /\b(Ja|n)(Ja)\b/, ["n", "Ja"]],
       ["kascel", /\b(Kc|n)(Kc)\b/, ["n", "Kc"]],
+      ["kintsugi", /\b(Kts|n)(Kts)\b/, ["n", "Kts"]],
       ["lacedtobiano", /\b(Tl|n)(Tl)\b/, ["n", "Tl"]],
       ["moulin", /\b(M|n)(M)\b/, ["n", "M"]],
       ["masquerade", /\b(Msq|n)(Msq)\b/, ["n", "Msq"]],
@@ -91,8 +97,8 @@ nord.breeding = {
       ["henna", /\b(Hn|n)(Hn)\b/, ["n", "Hn"]],
       ["flametouched", /\b(Flm|n)(Flm)\b/, ["n", "Flm"]],
       ["emblem", /\b(Em|n)(Em)\b/, ["n", "Em"]],
+      ["entemos", /\b(Es|n)(Es)\b/, ["n", "Es"]],
       ["ortho", /\b(OR|n)(OR)\b/, ["n", "OR"]],
-      // ["ailurus", /\b(Ai|n)(Ai)\b/, ["n", "Ai"]],
     ],
   },
 
@@ -165,10 +171,10 @@ nord.breeding = {
     ],
     mutations: [
       ["Agis", /\b(?:n|Ags)Ags\b/],
-      // ["Ailurus", /\b(?:n|Ai)Ai\b/],
+      ["Ailurus", /\b(?:n|Ai)Ai\b/],
       ["Angler", /\b(?:n|Ang)Ang\b/],
       ["Atlanticus", /\b(?:n|Atl)Atl\b/],
-    //   ["Aquatic", /\b(?:n|Aq)Aq\b/],
+      ["Aquatic", /\b(?:n|Aq)Aq\b/],
       ["Bloodsplash", /\b(?:n|Bsh)Bsh\b/],
       ["Butterfly", /\b(?:n|Bp)Bp\b/],
       ["Candy Cane", /\b(?:n|Cnd)Cnd\b/],
@@ -178,15 +184,15 @@ nord.breeding = {
       ["Christmas Bells", /\b(?:n|Bls)Bls\b/],
       ["Christmas Lights", /\b(?:n|Lht)Lht\b/],
       ["Clouded Leopard", /\b(?:n|Cd)Cd\b/],
-    //   ["Ectotherm", /\b(?:n|Ect)Ect\b/],
+      ["Ectotherm", /\b(?:n|Ect)Ect\b/],
       ["Eggnog", /\b(?:n|Nog)Nog\b/],
       ["Emblem", /\b(?:n|Em)Em\b/],
-    //   ["Entemos", /\b(?:n|Es)Es\b/],
+      ["Entemos", /\b(?:n|Es)Es\b/],
       ["Fawn", /\b(?:n|Fwn)Fwn\b/],
-    //   ["Festive Fawn", /\b(?:n|Fwn\^f)Fwn\^f\b/],
+      ["Festive Fawn", /\b(?:n|Fwn\^f)Fwn\^f\b/],
       ["Flametouched", /\b(?:n|Flm)Flm\b/],
       ["Frostsplash", /\b(?:n|Fspl)Fspl\b/],
-    //   ["Giraffe", /\b(?:n|Gr)Gr\b/],
+      ["Giraffe", /\b(?:n|Gr)Gr\b/],
       ["Glimmer", /\b(?:n|Glm)Glm\b/],
       ["Griffin's Touch", /\b(?:n|Gft)Gft\b/],
       ["Henna", /\b(?:n|Hn)Hn\b/],
@@ -194,7 +200,7 @@ nord.breeding = {
       ["Inkspill", /\b(?:n|Iks)Iks\b/],
       ["Jaguar", /\b(?:n|Ja)Ja\b/],
       ["Kascel", /\b(?:n|Kc)Kc\b/],
-    //   ["Kintsugi", /\b(?:n|Kts)Kts\b/],
+      ["Kintsugi", /\b(?:n|Kts)Kts\b/],
       ["Laced Tobiano", /\b(?:n|Tl)Tl\b/],
       ["Mandarin", /\b(?:n|Mnd)Mnd\b/],
       ["Masquerade", /\b(?:n|Msq)Msq\b/],
@@ -220,6 +226,7 @@ nord.breeding = {
       ["Melanism", /\bMel\b/],
       ["Vitiligo", /\bVit\b/],
       ["Xolo", /\bXo\b/],
+      ["Spectral", /\bSct\b/],
     ],
   },
 
@@ -1331,8 +1338,10 @@ nord.breeding = {
         if (mut[0] === "glimmer") {
           const rng = rzl.rng1to(10000);
           const x = rzl.rng1to(100);
-          const srad = sireGene.includes("Glm^r");
-          const drad = damGene.includes("Glm^r");
+		  console.log(sireGene);
+          const srad = sireGene.includes("Glm\^r");
+          const drad = damGene.includes("Glm\^r");
+		  console.log(srad, drad);
           const rad = ((srad || drad) && x <= 50) || rng <= 80 ? true : false;
           const gfrom = rad ? "Glm" : "Glm^r";
           const gto = rad ? "Glm^r" : "Glm";
@@ -1346,24 +1355,24 @@ nord.breeding = {
           foalGene = foalGene.join("");
           if (foalGene !== "nn") foal.addGene(foalGene);
         } 
-        if (mut[0] === "glimmer") {
-          const rng = rzl.rng1to(10000);
-          const x = rzl.rng1to(100);
-          const srad = sireGene.includes("Glm^r");
-          const drad = damGene.includes("Glm^r");
-          const rad = ((srad || drad) && x <= 50) || rng <= 80 ? true : false;
-          const gfrom = rad ? "Glm" : "Glm^r";
-          const gto = rad ? "Glm^r" : "Glm";
-          while (sireGene.includes(gfrom)) {
-            sireGene[sireGene.indexOf(gfrom)] = gto;
-          }
-          while (damGene.includes(gfrom)) {
-            damGene[damGene.indexOf(gfrom)] = gto;
-          }
-          let foalGene = self.finalisePart(sireGene, damGene, mut[2]);
-          foalGene = foalGene.join("");
-          if (foalGene !== "nn") foal.addGene(foalGene);
-        } 
+        // else if (mut[0] === "festivefawn") {
+        //   const rng = rzl.rng1to(10000);
+        //   const x = rzl.rng1to(100);
+        //   const srad = sireGene.includes("Fwn^f");
+        //   const drad = damGene.includes("Fwn^f");
+        //   const rad = ((srad || drad) && x <= 50) || rng <= 80 ? true : false;
+        //   const gfrom = rad ? "Fwn" : "Fwn^f";
+        //   const gto = rad ? "Fwn^f" : "Fwn";
+        //   while (sireGene.includes(gfrom)) {
+        //     sireGene[sireGene.indexOf(gfrom)] = gto;
+        //   }
+        //   while (damGene.includes(gfrom)) {
+        //     damGene[damGene.indexOf(gfrom)] = gto;
+        //   }
+        //   let foalGene = self.finalisePart(sireGene, damGene, mut[2]);
+        //   foalGene = foalGene.join("");
+        //   if (foalGene !== "nn") foal.addGene(foalGene);
+        // } 
 		else {
           const siremut = siregeno.match(mut[1]) || [],
             dammut = damgeno.match(mut[1]) || [];
