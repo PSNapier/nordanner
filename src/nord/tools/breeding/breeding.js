@@ -914,14 +914,13 @@ nord.breeding = {
         // chosen by horse.luck (which luck potion it was bred with)
         const chances = [
           [460, 540, 620, 700, 780, 860],
-          [1500, 3000, 4500, 6000, 7500, 9000, 10500, 12000],
+          [1500, 3000, 4500, 6000, 7500, 9000, 10500, 12000, 13500],
         ];
         // pheno to push, index matches index of respective chance
         const results = [...nord.breeding.traitData];
-		console.log(results);
 
         const chance = chances[horse.luck],
-          rng = rzl.rng1to(12000);
+          rng = rzl.rng1to(13500);
 
         function mimicry() {
           const rgx =
