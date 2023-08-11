@@ -22,6 +22,12 @@ nord.breeding = {
       ["noir", /\b(Nir|n)(Nir)\b/, ["n", "Nir"]],
       ["lilac", /\b(li|n)(li)\b/, ["n", "li"]],
       ["shift", /\b(Sft|n)(Sft)\b/, ["n", "Sft"]],
+      ["banding", /\b(Bd|n)(Bd)\b/, ["n", "Bd"]],
+      ["ticked", /\b(Tk|n)(Tk)\b/, ["n", "Tk"]],
+      ["verdin", /\b(Vr|n)(Vr)\b/, ["n", "Vr"]],
+      ["point", /\b(Pt|n)(Pt)\b/, ["n", "Pt"]],
+      ["webbed", /\b(Wb|n)(Wb)\b/, ["n", "Wb"]],
+      ["caped", /\b(Kd|n)(Kd)\b/, ["n", "Kd"]],
     ],
     whites: [
       ["sabino", /\b(Sb|n)(Sb)\b/, ["n", "Sb"]],
@@ -157,6 +163,12 @@ nord.breeding = {
       ["Noir", /\b(?:n|Nir)Nir\b/],
       ["Lilac", /\b(?:n|li)li\b/],
       ["Shift", /\b(?:n|Sft)Sft\b/],
+      ["Banding", /\b(?:n|Bd)Bd\b/],
+      ["Ticked", /\b(?:n|Tk)Tk\b/],
+      ["Verdin", /\b(?:n|Vr)Vr\b/],
+      ["Point", /\b(?:n|Pt)Pt\b/],
+      ["Webbed", /\b(?:n|Wb)Wb\b/],
+      ["Caped", /\b(?:n|Kd)Kd\b/],
     ],
     appaloosa: [
       ["Semi-Leopard Appaloosa", /\bLpLp\s(\w{4,5})\s(?!\1)\w{4,5}\b/],
@@ -407,6 +419,25 @@ nord.breeding = {
                 if (phenoStrings.includes('Cream')) {
                   phenoStrings.splice(phenoStrings.indexOf('Cream'), 1);
                   name = `Cream Merlot`;
+                }
+                phenoStrings.unshift(name);
+                break;
+              }
+            }
+          }
+
+          // Verdin
+          if (/\b(?:n|Vr)Vr\b/.test(horse.geno)) {
+            let name = "Verdin";
+
+            phenoStrings.splice(phenoStrings.indexOf(name), 1);
+            const baseList = ['Black', 'Bay', 'Seal Bay', 'Wild Bay', 'Chestnut'];
+            for (let i = 0; i < baseList.length; i++) {
+              if (phenoStrings.includes(baseList[i])) {
+                phenoStrings.splice(phenoStrings.indexOf(baseList[i]), 1);
+                if (phenoStrings.includes('Cream')) {
+                  phenoStrings.splice(phenoStrings.indexOf('Cream'), 1);
+                  name = `Cream Verdin`;
                 }
                 phenoStrings.unshift(name);
                 break;
@@ -883,13 +914,14 @@ nord.breeding = {
         // chosen by horse.luck (which luck potion it was bred with)
         const chances = [
           [460, 540, 620, 700, 780, 860],
-          [1500, 3000, 4500, 6000, 7500, 9000],
+          [1500, 3000, 4500, 6000, 7500, 9000, 10500, 12000],
         ];
         // pheno to push, index matches index of respective chance
         const results = [...nord.breeding.traitData];
+		console.log(results);
 
         const chance = chances[horse.luck],
-          rng = rzl.rng1to(10000);
+          rng = rzl.rng1to(12000);
 
         function mimicry() {
           const rgx =
