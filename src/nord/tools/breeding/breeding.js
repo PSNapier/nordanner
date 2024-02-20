@@ -583,25 +583,38 @@ nord.breeding = {
           if (/\b(?:n|li)li\b/.test(horse.geno)) {
             name = "Lilac";
 
-            phenoStrings.splice(phenoStrings.indexOf(name), 1);
-            const baseList = ['Black', 'Bay', 'Seal Bay', 'Wild Bay'];
-            for (let i = 0; i < baseList.length; i++) {
-              if (phenoStrings.includes(baseList[i])) {
-                phenoStrings.splice(phenoStrings.indexOf(baseList[i]), 1);
-                phenoStrings.unshift(name);
-                break;
-              }
-            }
-            if (!phenoStrings.includes('Lilac') || phenoStrings.includes("Chestnut")) {
-              carrier.push(name)
-            }
+			// if black or bay
+			phenoStrings.splice(phenoStrings.indexOf(name), 1);
+			if (/\blili\b/.test(horse.geno) && /\bE(E|e)\b/.test(horse.geno)) {
+				const baseList = ['Black', 'Bay', 'Seal Bay', 'Wild Bay'];
+				for (let i = 0; i < baseList.length; i++) {
+					if (phenoStrings.includes(baseList[i])) {
+						phenoStrings.splice(phenoStrings.indexOf(baseList[i]), 1);
+						phenoStrings.unshift(name);
+						break;
+					}
+				}
+			}
+			// else
+			else { 
+				carrier.push(name) 
+			}
 
-            // if (!phenoStrings.includes("Black") || /\bnli\b/.test(horse.geno)) {
-            //   carrier.push(name);
-            // } else {
-            //   phenoStrings.splice(phenoStrings.indexOf("Chestnut"));
-            //   phenoStrings.unshift(name);
-            // }
+
+			// if (horse.geno.includes('lili')) {
+			// 	phenoStrings.splice(phenoStrings.indexOf(name), 1);
+			// 	const baseList = ['Black', 'Bay', 'Seal Bay', 'Wild Bay'];
+			// 	for (let i = 0; i < baseList.length; i++) {
+			// 		if (phenoStrings.includes(baseList[i])) {
+			// 			phenoStrings.splice(phenoStrings.indexOf(baseList[i]), 1);
+			// 			phenoStrings.unshift(name);
+			// 			break;
+			// 		}
+			// 	}
+			// 	if (!phenoStrings.includes('Lilac') || phenoStrings.includes("Chestnut")) {
+			// 	carrier.push(name)
+			// 	}
+			// }
           }
         })();
         // conditional exceptions
