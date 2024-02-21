@@ -715,93 +715,104 @@ nord.breeding = {
           for (let base in bases) {
             if (phenoStrings.includes(base)) {
               switch (true) {
-                case /(?:(?:(?:n|D|Ch){2}|CrCr).*){3}/.test(horse.geno):
-                  phenoStrings.splice(phenoStrings.indexOf("Champagne"), 1);
-                  phenoStrings.splice(phenoStrings.indexOf("Cream"), 1);
-                  phenoStrings.splice(phenoStrings.indexOf("Dun"), 1);
-                  index = phenoStrings.indexOf(base);
-                  phenoStrings[index] = bases[base][0];
-                  break;
+					case phenoStrings.includes('Cream') && phenoStrings.includes('Pearl'):
+					console.log('yas');
+					let posCream = phenoStrings.indexOf('Cream');
+					let posPearl = phenoStrings.indexOf('Pearl');
+					phenoStrings[posCream] = 'Pearl';
+					phenoStrings[posPearl] = 'Cream';
+					index = phenoStrings.indexOf(base);
+					phenoStrings.splice(index, 1);
+					break;
 
-                case /(?:(?:(?:n|D|Ch|Cr){2}).*){3}/.test(horse.geno):
-                  phenoStrings.splice(phenoStrings.indexOf("Champagne"), 1);
-                  phenoStrings.splice(phenoStrings.indexOf("Cream"), 1);
-                  phenoStrings.splice(phenoStrings.indexOf("Dun"), 1);
-                  index = phenoStrings.indexOf(base);
-                  phenoStrings[index] = bases[base][1];
-                  break;
+					case /(?:(?:(?:n|D|Ch){2}|CrCr).*){3}/.test(horse.geno):
+					phenoStrings.splice(phenoStrings.indexOf("Champagne"), 1);
+					phenoStrings.splice(phenoStrings.indexOf("Cream"), 1);
+					phenoStrings.splice(phenoStrings.indexOf("Dun"), 1);
+					index = phenoStrings.indexOf(base);
+					phenoStrings[index] = bases[base][0];
+					break;
 
-                case /(?:(?:n|D|Ch){2}.*){2}/.test(horse.geno):
-                  phenoStrings.splice(phenoStrings.indexOf("Champagne"), 1);
-                  phenoStrings.splice(phenoStrings.indexOf("Dun"), 1);
-                  index = phenoStrings.indexOf(base);
-                  phenoStrings[index] = bases[base][2];
-                  break;
+					case /(?:(?:(?:n|D|Ch|Cr){2}).*){3}/.test(horse.geno):
+					phenoStrings.splice(phenoStrings.indexOf("Champagne"), 1);
+					phenoStrings.splice(phenoStrings.indexOf("Cream"), 1);
+					phenoStrings.splice(phenoStrings.indexOf("Dun"), 1);
+					index = phenoStrings.indexOf(base);
+					phenoStrings[index] = bases[base][1];
+					break;
 
-                case /(?:(?:(?:n|Ch){2}|CrCr).*){2}/.test(horse.geno):
-                  phenoStrings.splice(phenoStrings.indexOf("Champagne"), 1);
-                  phenoStrings.splice(phenoStrings.indexOf("Cream"), 1);
-                  index = phenoStrings.indexOf(base);
-                  phenoStrings[index] = bases[base][3];
-                  break;
+					case /(?:(?:n|D|Ch){2}.*){2}/.test(horse.geno):
+					phenoStrings.splice(phenoStrings.indexOf("Champagne"), 1);
+					phenoStrings.splice(phenoStrings.indexOf("Dun"), 1);
+					index = phenoStrings.indexOf(base);
+					phenoStrings[index] = bases[base][2];
+					break;
 
-                case /(?:.*(?:n|Ch|Cr){2}.*){2}/.test(horse.geno):
-                  phenoStrings.splice(phenoStrings.indexOf("Champagne"), 1);
-                  phenoStrings.splice(phenoStrings.indexOf("Cream"), 1);
-                  index = phenoStrings.indexOf(base);
-                  phenoStrings[index] = bases[base][4];
-                  break;
+					case /(?:(?:(?:n|Ch){2}|CrCr).*){2}/.test(horse.geno):
+					phenoStrings.splice(phenoStrings.indexOf("Champagne"), 1);
+					phenoStrings.splice(phenoStrings.indexOf("Cream"), 1);
+					index = phenoStrings.indexOf(base);
+					phenoStrings[index] = bases[base][3];
+					break;
 
-                case /(?:(?:[nD]{2}|CrCr).*){2}/.test(horse.geno):
-                  phenoStrings.splice(phenoStrings.indexOf("Cream"), 1);
-                  phenoStrings.splice(phenoStrings.indexOf("Dun"), 1);
-                  index = phenoStrings.indexOf(base);
-                  phenoStrings[index] = bases[base][5];
-                  break;
+					case /(?:.*(?:n|Ch|Cr){2}.*){2}/.test(horse.geno):
+					phenoStrings.splice(phenoStrings.indexOf("Champagne"), 1);
+					phenoStrings.splice(phenoStrings.indexOf("Cream"), 1);
+					index = phenoStrings.indexOf(base);
+					phenoStrings[index] = bases[base][4];
+					break;
 
-                case /(?:[nD](?:D|Cr).*){2}/.test(horse.geno):
-                  phenoStrings.splice(phenoStrings.indexOf("Cream"), 1);
-                  phenoStrings.splice(phenoStrings.indexOf("Dun"), 1);
-                  index = phenoStrings.indexOf(base);
-                  phenoStrings[index] = bases[base][6];
-                  break;
+					case /(?:(?:[nD]{2}|CrCr).*){2}/.test(horse.geno):
+					phenoStrings.splice(phenoStrings.indexOf("Cream"), 1);
+					phenoStrings.splice(phenoStrings.indexOf("Dun"), 1);
+					index = phenoStrings.indexOf(base);
+					phenoStrings[index] = bases[base][5];
+					break;
 
-                case /(?:n|Ch)Ch/.test(horse.geno):
-                  phenoStrings.splice(phenoStrings.indexOf("Champagne"), 1);
-                  index = phenoStrings.indexOf(base);
-                  phenoStrings[index] = bases[base][12];
-                  break;
+					case /(?:[nD](?:D|Cr).*){2}/.test(horse.geno):
+					phenoStrings.splice(phenoStrings.indexOf("Cream"), 1);
+					phenoStrings.splice(phenoStrings.indexOf("Dun"), 1);
+					index = phenoStrings.indexOf(base);
+					phenoStrings[index] = bases[base][6];
+					break;
 
-                case /CrCr/.test(horse.geno):
-                  phenoStrings.splice(phenoStrings.indexOf("Cream"), 1);
-                  index = phenoStrings.indexOf(base);
-                  phenoStrings[index] = bases[base][10];
-                  break;
+					case /(?:n|Ch)Ch/.test(horse.geno):
+					phenoStrings.splice(phenoStrings.indexOf("Champagne"), 1);
+					index = phenoStrings.indexOf(base);
+					phenoStrings[index] = bases[base][12];
+					break;
 
-                case /nCr/.test(horse.geno):
-                  phenoStrings.splice(phenoStrings.indexOf("Cream"), 1);
-                  index = phenoStrings.indexOf(base);
-                  phenoStrings[index] = bases[base][11];
-                  break;
+					case /CrCr/.test(horse.geno):
+					phenoStrings.splice(phenoStrings.indexOf("Cream"), 1);
+					index = phenoStrings.indexOf(base);
+					phenoStrings[index] = bases[base][10];
+					break;
 
-                case /[nD]D/.test(horse.geno):
-                  phenoStrings.splice(phenoStrings.indexOf("Dun"), 1);
-                  index = phenoStrings.indexOf(base);
-                  phenoStrings[index] = bases[base][9];
-                  break;
+					case /nCr/.test(horse.geno):
+					phenoStrings.splice(phenoStrings.indexOf("Cream"), 1);
+					index = phenoStrings.indexOf(base);
+					phenoStrings[index] = bases[base][11];
+					break;
 
-                case /prl{2}/.test(horse.geno):
-                  phenoStrings.splice(phenoStrings.indexOf("Pearl"), 1);
-                  index = phenoStrings.indexOf(base);
-                  phenoStrings[index] = bases[base][7];
-                  break;
+					case /[nD]D/.test(horse.geno):
+					phenoStrings.splice(phenoStrings.indexOf("Dun"), 1);
+					index = phenoStrings.indexOf(base);
+					phenoStrings[index] = bases[base][9];
+					break;
 
-                case /[nR]R\s/.test(horse.geno):
-                  phenoStrings.splice(phenoStrings.indexOf("Roan"), 1);
-                  index = phenoStrings.indexOf(base);
-                  phenoStrings[index] = bases[base][8];
-                  break;
-              }
+					case /prl{2}/.test(horse.geno):
+					phenoStrings.splice(phenoStrings.indexOf("Pearl"), 1);
+					index = phenoStrings.indexOf(base);
+					phenoStrings[index] = bases[base][7];
+					break;
+
+					case /[nR]R\s/.test(horse.geno):
+					phenoStrings.splice(phenoStrings.indexOf("Roan"), 1);
+					index = phenoStrings.indexOf(base);
+					phenoStrings[index] = bases[base][8];
+					break;
+
+				}
             }
           }
         }
