@@ -77,7 +77,7 @@ nord.breeding = {
       ["christmaslights", /\b(Lht|n)(Lht)\b/, ["n", "Lht"]],
       ["cloudedleopard", /\b(Cd|n)(Cd)\b/, ["n", "Cd"]],
       ["ectotherm", /\b(Ect|n)(Ect)\b/, ["n", "Ect"]],
-    //   ["fawn", /\b(Fwn|n)(Fwn)\b/, ["n", "Fwn"]],
+      //   ["fawn", /\b(Fwn|n)(Fwn)\b/, ["n", "Fwn"]],
       ["frostsplash", /\b(Fspl|n)(Fspl)\b/, ["n", "Fspl"]],
       ["giraffe", /\b(Gr|n)(Gr)\b/, ["n", "Gr"]],
       ["griffinstouch", /\b(Gft|n)(Gft)\b/, ["n", "Gft"]],
@@ -1520,27 +1520,54 @@ nord.breeding = {
 
     // console.log(add,rmv)
 
+	let dictionary = [];
+	function populateDictionary(geneList) {
+		for (let i = 0; i < geneList.length; i++) {
+			dictionary.push(geneList[i][2][1]);
+			// console.log(geneList[i][2].length);
+			// if (geneList[i][2].length == 3) {
+			// 	dictionary.push(geneList([i][2][2]))
+			// }
+		}
+	}
+	populateDictionary(this.geneData.dilutes);
+	populateDictionary(this.geneData.whites);
+	populateDictionary(this.mutationData.breedable);
+	populateDictionary(this.mutationData.normal);
+	populateDictionary(this.anomalyData);
+	// console.log(dictionary);
+
     if (add[0])
       add.forEach((v, k, i) => {
-        let match = v.match(
-          /\b(n?(A(?:gs|ng|tl)|B(?:ls|p|sh)|C(?:c|h|mp|n?d|rv?)|D|Em|F(?:lm|spl|wn)|f|G(?:ft|l(?:b|m(?:\^r)?))?|H(?:mg|n)|Iks|Ja|Kc|Lht|li|M(?:nd|sq)?|mu|Nog|OR?|P(?:[ak]n|wl)?|prl|Rb?|S(?:b|d|[gp]l|ty)|T[bilry]|Unv|Wd?|Ze?){1,2})\b/
-        );
-        // console.log("add",match)
-        switch (true) {
-          case foal.genes.includes(match[2] + match[2]): // foal has dom
-            // console.log("Foal already has dominant gene",match[2]+match[2])
-            break;
-          case foal.genes.includes("n" + match[2]): // foal has rec
-            // console.log("Foal now has dominant gene",match[2]+match[2])
-            let fgenes = foal.genes;
-            fgenes[fgenes.indexOf("n" + match[2])] = match[2] + match[2];
-            foal.genes = fgenes;
-            break;
-          default:
-            // foal doesn't have this gene
-            // console.log("Foal now has gene",match[1])
-            foal.addGene(match[1]);
-        }
+		for (let i = 0; i < dictionary.length; i++) {
+			let regex = new RegExp('\\b(n?(' + dictionary[i] + '){1,2})\\b');
+			let match = v.match(regex);
+
+			console.log(match);
+
+			let dom = `${dictionary[i]}${dictionary[i]}`;
+			let rec = `n${dictionary[i]}`;
+			// dom
+			if (match[0] === dom) {
+				let index = foal.genes.indexOf(rec);
+				if (index !== -1) {
+					foal.genes.splice(index, 1, dom);
+				}
+				else {
+					foal.genes.push(dom);
+				}
+			}
+			// rec
+			if (match[0] === rec) {
+				let index = foal.genes.indexOf(dom);
+				if (index !== -1) {
+					foal.genes.splice(index, 1, rec);
+				}
+				else {
+					foal.genes.push(rec)
+				}
+			}
+		}
       });
 
     if (rmv[0])
@@ -1549,7 +1576,7 @@ nord.breeding = {
           match = v.match(
             /(n?(A(?:gs|ng|tl)|B(?:ls|p|sh)|C(?:c|h|mp|n?d|rv?)|D|Em|F(?:lm|spl|wn)|f|G(?:ft|l(?:b|m(?:\^r)?))?|H(?:mg|n)|Iks|Ja|Kc|Lht|li|M(?:nd|sq)?|mu|Nog|OR?|P(?:[ak]n|wl)?|prl|Rb?|S(?:b|d|[gp]l|ty)|T[bilry]|Unv|Wd?|Ze?){1,2})/
           );
-        // console.log("remove",match)
+        // console.log("remove ", match)
         switch (true) {
           // if rmv dom - remove dom or rec
           // if rmv rec - dom to rec or remove rec
