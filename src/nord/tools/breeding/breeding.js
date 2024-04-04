@@ -1514,20 +1514,23 @@ nord.breeding = {
   },
 
   modGenes: function (foal) {
+	// setup
     const fields = nord.state.breeding.fields,
       add = fields.genemodadd.value.trim().split(" "),
       rmv = fields.genemodrmv.value.trim().split(" ");
 
-    // console.log(add,rmv)
+    console.log(add,rmv)
 
+	// populate dictionary from gene lists
 	let dictionary = [];
 	function populateDictionary(geneList) {
 		for (let i = 0; i < geneList.length; i++) {
-			dictionary.push(geneList[i][2][1]);
-			// console.log(geneList[i][2].length);
-			// if (geneList[i][2].length == 3) {
-			// 	dictionary.push(geneList([i][2][2]))
-			// }
+			dictionary.push(`n${geneList[i][2][1]}`);
+			dictionary.push(`${geneList[i][2][1]}${geneList[i][2][1]}`);
+			if (geneList[i][2].length === 3) {
+				dictionary.push(`n${geneList[i][2][2]}`);
+				dictionary.push(`${geneList[i][2][2]}${geneList[i][2][2]}`);
+			}
 		}
 	}
 	populateDictionary(this.geneData.dilutes);
@@ -1537,64 +1540,96 @@ nord.breeding = {
 	populateDictionary(this.anomalyData);
 	// console.log(dictionary);
 
-    if (add[0])
-      add.forEach((v, k, i) => {
-		for (let i = 0; i < dictionary.length; i++) {
-			let regex = new RegExp('\\b(n?(' + dictionary[i] + '){1,2})\\b');
-			let match = v.match(regex);
-
-			console.log(match);
-
-			let dom = `${dictionary[i]}${dictionary[i]}`;
-			let rec = `n${dictionary[i]}`;
-			// dom
-			if (match[0] === dom) {
-				let index = foal.genes.indexOf(rec);
-				if (index !== -1) {
-					foal.genes.splice(index, 1, dom);
-				}
-				else {
-					foal.genes.push(dom);
-				}
-			}
-			// rec
-			if (match[0] === rec) {
-				let index = foal.genes.indexOf(dom);
-				if (index !== -1) {
-					foal.genes.splice(index, 1, rec);
-				}
-				else {
-					foal.genes.push(rec)
-				}
+	function checkLegal(arr) {
+		for (let value of arr) {
+			if (!dictionary.includes(value)) {
+			return value;
 			}
 		}
-      });
+		return true; // Return true if all values exist in the dictionary
+	}
 
-    if (rmv[0])
-      rmv.forEach((v, k, i) => {
-        const fgenes = foal.genes,
-          match = v.match(
-            /(n?(A(?:gs|ng|tl)|B(?:ls|p|sh)|C(?:c|h|mp|n?d|rv?)|D|Em|F(?:lm|spl|wn)|f|G(?:ft|l(?:b|m(?:\^r)?))?|H(?:mg|n)|Iks|Ja|Kc|Lht|li|M(?:nd|sq)?|mu|Nog|OR?|P(?:[ak]n|wl)?|prl|Rb?|S(?:b|d|[gp]l|ty)|T[bilry]|Unv|Wd?|Ze?){1,2})/
-          );
-        // console.log("remove ", match)
-        switch (true) {
-          // if rmv dom - remove dom or rec
-          // if rmv rec - dom to rec or remove rec
-          // match[0] is input, [1] is whole, [2] if rec, [3] is gene char
-          case fgenes.includes(match[1]): // remove the target
-            fgenes.splice(fgenes.indexOf(match[1]), 1);
-            break;
+	console.log(add);
+	if (add[0] !== '') {
+		const check = checkLegal(add);
+		if (check) {
 
-          case !match[2] && fgenes.includes("n" + match[3]): // remove the target
-            fgenes.splice(fgenes.indexOf("n" + match[3]), 1);
-            break;
+		}
+		else {
+			alert(`The '${check}' gene doesn't seem to be a legal gene, please double check that your input is accurate.`)
+		}
+	}
 
-          case match[2] && fgenes.includes(match[3] + match[3]): // reduce dom
-            fgenes[fgenes.indexOf(match[3] + match[3])] = [match[1]];
-            break;
-        }
-        foal.genes = fgenes;
-      });
+	// if (rmv.length > 0) {
+	// 	if (rmv.every(value => dictionary.includes(value))) {
+
+	// 	}
+	// 	else {
+	// 		alert(`One or more of your 'remove' genes wasn't found, please double check that your input is accurate.`)
+	// 	}
+	// }
+
+    // if (add[0])
+    //   add.forEach((v, k, i) => {
+	// 	for (let i = 0; i < dictionary.length; i++) {
+	// 		let regex = new RegExp('\\b(n?(' + dictionary[i] + '){1,2})\\b');
+	// 		let match = v.match(regex);
+
+	// 		console.log(v);
+
+	// 		let dom = `${dictionary[i]}${dictionary[i]}`;
+	// 		let rec = `n${dictionary[i]}`;
+	// 		// dom
+	// 		if (match.length === 0) {
+	// 			continue;
+	// 		}
+	// 		if (match[0] === dom) {
+	// 			let index = foal.genes.indexOf(rec);
+	// 			if (index !== -1) {
+	// 				foal.genes.splice(index, 1, dom);
+	// 			}
+	// 			else {
+	// 				foal.genes.push(dom);
+	// 			}
+	// 		}
+	// 		// rec
+	// 		if (match[0] === rec) {
+	// 			let index = foal.genes.indexOf(dom);
+	// 			if (index !== -1) {
+	// 				foal.genes.splice(index, 1, rec);
+	// 			}
+	// 			else {
+	// 				foal.genes.push(rec)
+	// 			}
+	// 		}
+	// 	}
+    //   });
+
+    // if (rmv[0])
+    //   rmv.forEach((v, k, i) => {
+    //     const fgenes = foal.genes,
+    //       match = v.match(
+    //         /(n?(A(?:gs|ng|tl)|B(?:ls|p|sh)|C(?:c|h|mp|n?d|rv?)|D|Em|F(?:lm|spl|wn)|f|G(?:ft|l(?:b|m(?:\^r)?))?|H(?:mg|n)|Iks|Ja|Kc|Lht|li|M(?:nd|sq)?|mu|Nog|OR?|P(?:[ak]n|wl)?|prl|Rb?|S(?:b|d|[gp]l|ty)|T[bilry]|Unv|Wd?|Ze?){1,2})/
+    //       );
+    //     // console.log("remove ", match)
+    //     switch (true) {
+    //       // if rmv dom - remove dom or rec
+    //       // if rmv rec - dom to rec or remove rec
+    //       // match[0] is input, [1] is whole, [2] if rec, [3] is gene char
+    //       case fgenes.includes(match[1]): // remove the target
+    //         fgenes.splice(fgenes.indexOf(match[1]), 1);
+    //         break;
+
+    //       case !match[2] && fgenes.includes("n" + match[3]): // remove the target
+    //         fgenes.splice(fgenes.indexOf("n" + match[3]), 1);
+    //         break;
+
+    //       case match[2] && fgenes.includes(match[3] + match[3]): // reduce dom
+    //         fgenes[fgenes.indexOf(match[3] + match[3])] = [match[1]];
+    //         break;
+    //     }
+    //     foal.genes = fgenes;
+    //   });
   },
 
   // ======================================================================
