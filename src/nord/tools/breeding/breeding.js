@@ -1520,11 +1520,11 @@ nord.breeding = {
 
     // console.log(add,rmv)
 
+	const matchRegex = /\b(n?(Ags|Aq|Ang|Atl|Bls|Bd|Bp|Bsh|Cc|Ch|Cmp|Cnd|Crv|D|Em|Es|Flm|Fspl|Fwn|Fwn\^f|Gft|Gl|Glb|Glm|Glm\^r|Gr|Hmg|Hn|Iks|Ja|Kc|Kd|Kts|Lht|Me|Msq|Mu|Nir|Nog|O|OR|Pakn|Pkn|Pwl|Pt|prl|Rb|Sb|Sd|Sgl|Spl|Tk|Tb|Ti|Tl|Tr|Ty|Unv|Vr|Wb|Wd|Ze|Zn){1,2})\b/;
+
     if (add[0])
       add.forEach((v, k, i) => {
-        let match = v.match(
-          /\b(n?(A(?:gs|ng|tl)|B(?:ls|p|sh)|C(?:c|h|mp|n?d|rv?)|D|Em|F(?:lm|spl|wn)|f|G(?:ft|l(?:b|m(?:\^r)?))?|H(?:mg|n)|Iks|Ja|Kc|Lht|li|M(?:nd|sq)?|mu|Nog|OR?|P(?:[ak]n|wl)?|prl|Rb?|S(?:b|d|[gp]l|ty)|T[bilry]|Unv|Wd?|Ze?){1,2})\b/
-        );
+        let match = v.match(matchRegex);
         // console.log("add",match)
         switch (true) {
           case foal.genes.includes(match[2] + match[2]): // foal has dom
@@ -1546,9 +1546,7 @@ nord.breeding = {
     if (rmv[0])
       rmv.forEach((v, k, i) => {
         const fgenes = foal.genes,
-          match = v.match(
-            /(n?(A(?:gs|ng|tl)|B(?:ls|p|sh)|C(?:c|h|mp|n?d|rv?)|D|Em|F(?:lm|spl|wn)|f|G(?:ft|l(?:b|m(?:\^r)?))?|H(?:mg|n)|Iks|Ja|Kc|Lht|li|M(?:nd|sq)?|mu|Nog|OR?|P(?:[ak]n|wl)?|prl|Rb?|S(?:b|d|[gp]l|ty)|T[bilry]|Unv|Wd?|Ze?){1,2})/
-          );
+          match = v.match(matchRegex);
         // console.log("remove",match)
         switch (true) {
           // if rmv dom - remove dom or rec
