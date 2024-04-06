@@ -1517,15 +1517,33 @@ nord.breeding = {
     const fields = nord.state.breeding.fields,
       add = fields.genemodadd.value.trim().split(" "),
       rmv = fields.genemodrmv.value.trim().split(" ");
-
     // console.log(add,rmv)
 
-	const matchRegex = /\b(n?(Ags|Aq|Ang|Atl|Bls|Bd|Bp|Bsh|Cc|Ch|Cmp|Cnd|Crv|D|Em|Es|Flm|Fspl|Fwn|Fwn\^f|Gft|Gl|Glb|Glm|Glm\^r|Gr|Hmg|Hn|Iks|Ja|Kc|Kd|Kts|Lht|Me|Msq|Mu|Nir|Nog|O|OR|Pakn|Pkn|Pwl|Pt|prl|Rb|Sb|Sd|Sgl|Spl|Tk|Tb|Ti|Tl|Tr|Ty|Unv|Vr|Wb|Wd|Ze|Zn){1,2})\b/;
+	// populate dictionary from gene lists
+	let dictionary = [];
+	function populateDictionary(geneList) {
+		for (let i = 0; i < geneList.length; i++) {
+			dictionary.push(geneList[i][2][1]);
+			if (geneList[i][2].length === 3) {
+				dictionary.push(geneList[i][2][2]);
+			}
+		}
+	}
+	populateDictionary(this.geneData.dilutes);
+	populateDictionary(this.geneData.whites);
+	populateDictionary(this.mutationData.breedable);
+	populateDictionary(this.mutationData.normal);
+	// console.log(dictionary);
+
+	// create regex expression
+	const matchRegex = new RegExp(`\\b(n?(${dictionary.join('|')})){1,2}\\b`);
+	// const matchRegex = /\b(n?(Ags|Aq|Ang|Atl|Bls|Bd|Bp|Bsh|Cc|Ch|Cmp|Cnd|Crv|D|Em|Es|Flm|Fspl|Fwn|Fwn\^f|Gft|Gl|Glb|Glm|Glm\^r|Gr|Hmg|Hn|Iks|Ja|Kc|Kd|Kts|Lht|Me|Msq|Mu|Nir|Nog|O|OR|Pakn|Pkn|Pwl|Pt|prl|Rb|Sb|Sd|Sgl|Spl|Tk|Tb|Ti|Tl|Tr|Ty|Unv|Vr|Wb|Wd|Ze|Zn){1,2})\b/;
+	// console.log(matchRegex);
 
     if (add[0])
       add.forEach((v, k, i) => {
         let match = v.match(matchRegex);
-        // console.log("add",match)
+        console.log("add",match)
         switch (true) {
           case foal.genes.includes(match[2] + match[2]): // foal has dom
             // console.log("Foal already has dominant gene",match[2]+match[2])
@@ -1536,10 +1554,8 @@ nord.breeding = {
             fgenes[fgenes.indexOf("n" + match[2])] = match[2] + match[2];
             foal.genes = fgenes;
             break;
-          default:
-            // foal doesn't have this gene
-            // console.log("Foal now has gene",match[1])
-            foal.addGene(match[1]);
+          default: // foal doesn't have this gene, input dom
+            foal.addGene(match[0]);
         }
       });
 
