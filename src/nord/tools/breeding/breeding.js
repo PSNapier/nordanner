@@ -1095,6 +1095,14 @@ nord.breeding = {
       return gene;
     }
 
+    removeGene(gene) {
+      if (!gene || typeof gene !== "string") return false;
+      let genes = this.genes;
+      genes.push(gene);
+      this.genes = genes;
+      return gene;
+    }
+
     isAppaloosa() {
       return /\b(?:n|Lp)Lp\b/.test(this.geno);
     }
@@ -1142,7 +1150,7 @@ nord.breeding = {
       const join = "<br>" + (twins ? "AND" : "OR") + "<br>",
         strings = [];
       foals.forEach((v, i) => {
-		console.log(v.pheno);
+		// console.log(v.pheno);
         let appy = v.isAppaloosa() ? " ( " + v.appaloosa.join(" ") + " ) " : "",
           idx = v.geno.lastIndexOf("Lp") + 2 || 0,
           geno = v.geno.slice(0, idx) + appy + v.geno.slice(idx);
@@ -1151,7 +1159,7 @@ nord.breeding = {
 
       rzl.addDiv(output, { content: strings.join(join) });
 
-      console.log("breed complete", nord.state.breeding.breed);
+    //   console.log("breed complete", nord.state.breeding.breed);
       output.classList.remove("rzl-hidden");
     } catch (e) {
       console.error(e);
@@ -1536,14 +1544,14 @@ nord.breeding = {
 	// console.log(dictionary);
 
 	// create regex expression
-	const matchRegex = new RegExp(`\\b(n?(${dictionary.join('|')})){1,2}\\b`);
+	const matchRegex = new RegExp(`\\b(n?(Lp|${dictionary.join('|')})){1,2}\\b`);
 	// const matchRegex = /\b(n?(Ags|Aq|Ang|Atl|Bls|Bd|Bp|Bsh|Cc|Ch|Cmp|Cnd|Crv|D|Em|Es|Flm|Fspl|Fwn|Fwn\^f|Gft|Gl|Glb|Glm|Glm\^r|Gr|Hmg|Hn|Iks|Ja|Kc|Kd|Kts|Lht|Me|Msq|Mu|Nir|Nog|O|OR|Pakn|Pkn|Pwl|Pt|prl|Rb|Sb|Sd|Sgl|Spl|Tk|Tb|Ti|Tl|Tr|Ty|Unv|Vr|Wb|Wd|Ze|Zn){1,2})\b/;
 	// console.log(matchRegex);
 
     if (add[0])
       add.forEach((v, k, i) => {
         let match = v.match(matchRegex);
-        console.log("add",match)
+        // console.log("add",match)
         switch (true) {
           case foal.genes.includes(match[2] + match[2]): // foal has dom
             // console.log("Foal already has dominant gene",match[2]+match[2])
@@ -1559,28 +1567,30 @@ nord.breeding = {
         }
       });
 
+
     if (rmv[0])
       rmv.forEach((v, k, i) => {
-        const fgenes = foal.genes,
-          match = v.match(matchRegex);
-        // console.log("remove",match)
+        let match = v.match(matchRegex);
+        // console.log(foal.genes, "rmv", match[2])
         switch (true) {
-          // if rmv dom - remove dom or rec
-          // if rmv rec - dom to rec or remove rec
-          // match[0] is input, [1] is whole, [2] if rec, [3] is gene char
-          case fgenes.includes(match[1]): // remove the target
-            fgenes.splice(fgenes.indexOf(match[1]), 1);
+          case foal.genes.includes(match[2] + match[2]): // foal has dom
+		  	console.log('dom remove');
+			let fgenes = foal.genes;
+			if (match[0] === `n${match[2]}`) fgenes[fgenes.indexOf(match[2] + match[2])] = "n" + match[2];
+			else fgenes.splice(fgenes.indexOf(match[2] + match[2]), 1);
+            foal.genes = fgenes;
             break;
-
-          case !match[2] && fgenes.includes("n" + match[3]): // remove the target
-            fgenes.splice(fgenes.indexOf("n" + match[3]), 1);
+          case foal.genes.includes("n" + match[2]): // foal has rec
+		    console.log('foal has rec ' + match[2]);
+		    console.log(foal.genes);
+		  	let fgenes1 = foal.genes;
+            fgenes1.splice(fgenes1.indexOf("n" + match[2]), 1);
+            foal.genes = fgenes1;
+		    console.log(foal.genes);
             break;
-
-          case match[2] && fgenes.includes(match[3] + match[3]): // reduce dom
-            fgenes[fgenes.indexOf(match[3] + match[3])] = [match[1]];
-            break;
+          default: // foal doesn't have this gene
+            // n/a
         }
-        foal.genes = fgenes;
       });
   },
 
