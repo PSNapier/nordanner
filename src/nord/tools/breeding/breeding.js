@@ -1552,6 +1552,7 @@ nord.breeding = {
       add.forEach((v, k, i) => {
         let match = v.match(matchRegex);
         // console.log("add",match)
+		if (match === null) return;
         switch (true) {
           case foal.genes.includes(match[2] + match[2]): // foal has dom
             // console.log("Foal already has dominant gene",match[2]+match[2])
@@ -1567,11 +1568,11 @@ nord.breeding = {
         }
       });
 
-
     if (rmv[0])
       rmv.forEach((v, k, i) => {
         let match = v.match(matchRegex);
         // console.log(foal.genes, "rmv", match[2])
+		if (match === null) return;
         switch (true) {
           case foal.genes.includes(match[2] + match[2]): // foal has dom
 		  	console.log('dom remove');
@@ -1592,6 +1593,51 @@ nord.breeding = {
             // n/a
         }
       });
+
+	// add+remove anomalies
+	let anomalyDictionary = [];
+	for (let i = 0; i < this.anomalyData.length; i++) {
+		anomalyDictionary.push(this.anomalyData[i][2]);
+	};
+	console.log(anomalyDictionary);
+
+	const anomalyMatchRegex = new RegExp(`\\b(${anomalyDictionary.join('|')})\\b`);
+
+	if (add[0])
+      add.forEach((v, k, i) => {
+        let match = v.match(anomalyMatchRegex);
+        console.log("add",match)
+		if (match === null) return;
+        switch (true) {
+          case foal.genes.includes(match[0]): // foal already has anomaly
+            break;
+          default: // foal doesn't have this gene, add gene
+            foal.addGene(match[0]);
+        }
+      });
+
+    if (rmv[0])
+      rmv.forEach((v, k, i) => {
+        let match = v.match(anomalyMatchRegex);
+        // console.log(foal.genes, "rmv", match[2])
+		if (match === null) return;
+        switch (true) {
+          case foal.genes.includes(match[0] + match[0]): // foal has dom
+		  	// console.log('dom remove');
+			let fgenes = foal.genes;
+			fgenes[fgenes.indexOf(match[0] + match[0])] = match[0];
+			foal.genes = fgenes;
+            break;
+          case foal.genes.includes(match[0]): // foal has rec
+		  	let fgenes1 = foal.genes;
+            fgenes1.splice(fgenes1.indexOf(match[0]), 1);
+            foal.genes = fgenes1;
+            break;
+          default: // foal doesn't have this gene
+            // n/a
+        }
+	});
+	
   },
 
   // ======================================================================
