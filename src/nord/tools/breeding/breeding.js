@@ -171,15 +171,16 @@ nord.breeding = {
       ["Caped", /\b(?:n|Kd)Kd\b/],
     ],
     appaloosa: [
-      ["Semi-Leopard Appaloosa", /\bLpLp\s(\w{4,5})\s(?!\1)\w{4,5}\b/],
-      ["Fewspot Appaloosa", /\bLpLp(?:\spatn1){2}\b/],
-      ["Snowcap Appaloosa", /\bLpLp(?:\spatn2){2}\b/],
-      ["Varnish Roan Appaloosa", /\bLpLp(?:\svarn){2}|nLp(?:\svarn)\b/],
-      ["Snowflake Appaloosa", /\bLpLp(?:\ssnow){2}|nLp(?:\ssnow)\b/],
-      ["Frosted Appaloosa", /\bLpLp(?:\sfrost){2}|nLp(?:\sfrost)\b/],
-      ["Snowfall Appaloosa", /\bLpLp(?:\sfall){2}|nLp(?:\sfall)\b/],
-      ["Leopard Appaloosa", /\bnLp\spatn1\b/],
+      ["Snowfall Appaloosa", /\b(LpLp|nLp)(?:\s(fall|patn2|patn1|manchado|varn|frost|snow))?\sfall\b/],
+      ["Snowcap Appaloosa", /\bLpLp\spatn2\spatn2\b/],
+      ["Fewspot Appaloosa", /\bLpLp\spatn1\spatn1\b/],
       ["Spotted Blanket Appaloosa", /\bnLp\spatn2\b/],
+      ["Semi-Leopard Appaloosa", /\bLpLp\s(fall|patn2|patn1|manchado|varn|frost|snow)\s(fall|patn2|patn1|manchado|varn|frost|snow)\b/],
+      ["Leopard Appaloosa", /\bnLp\spatn1\b/],
+      ["Manchado Appaloosa", /\b(LpLp|nLp)(?:\smanchado)?\smanchado\b/],
+      ["Varnish Roan Appaloosa", /\b(LpLp|nLp)(?:\svarn)?\svarn\b/],
+      ["Frosted Appaloosa", /\b(LpLp|nLp)(?:\sfrost)?\sfrost\b/],
+      ["Snowflake Appaloosa", /\b(LpLp|nLp)(?:\ssnow)?\ssnow\b/],
     ],
     mutations: [
       ["Agis", /\b(?:n|Ags)Ags\b/],
@@ -307,16 +308,26 @@ nord.breeding = {
           for (let item in phenoData[group]) {
             // if appaloosa we need appaloosa genes and patterns
             if (group === "appaloosa") {
+				// console.log(horse.geno, horse.appaloosa);
+
+			//   let appyReaderDictionary = [
+			// 	['nLp|LpLp', 'snow', 'snowflake'],
+			//   ];
+				
               testStr = horse.geno.match(/\b((?:n|Lp)Lp)\b/);
               if (testStr === "nLp") {
+				// rec
                 testStr += " " + horse.appaloosa[0];
               } else {
+				// dom
                 testStr += " " + horse.appaloosa[0] + " " + horse.appaloosa[1];
               }
             } else {
               // else just geno
               testStr = horse.geno;
             }
+
+			console.log('pheno: ' + testStr);
 
             // search test string with provided regexp
             if (phenoData[group][item][1].test(testStr)) {
@@ -1599,7 +1610,7 @@ nord.breeding = {
 	for (let i = 0; i < this.anomalyData.length; i++) {
 		anomalyDictionary.push(this.anomalyData[i][2]);
 	};
-	console.log(anomalyDictionary);
+	// console.log(anomalyDictionary);
 
 	const anomalyMatchRegex = new RegExp(`\\b(${anomalyDictionary.join('|')})\\b`);
 
